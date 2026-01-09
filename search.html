@@ -41,9 +41,10 @@ document.getElementById("searchForm").addEventListener("submit", function (e) {
     const term = encodeURIComponent(document.getElementById("term").value.trim());
     const url = `https://github.com/search?q=repo:nicsure/RMS880+${term}&type=wikis`;
 
-    window.open(url, "_blank");
+    window.location.href = url;
 });
 </script>
 
 </body>
 </html>
+
