@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RMS880 Wiki Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        input {
+            width: 300px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 8px 14px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Search RMS880 Wiki</h2>
+
+<form id="searchForm">
+    <input
+        type="text"
+        id="term"
+        placeholder="Enter search term (e.g. beacon)"
+        required
+    >
+    <button type="submit">Search</button>
+</form>
+
+<script>
+document.getElementById("searchForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const term = encodeURIComponent(document.getElementById("term").value.trim());
+    const url = `https://github.com/search?q=repo:nicsure/RMS880+${term}&type=wikis`;
+
+    window.open(url, "_blank");
+});
+</script>
+
+</body>
+</html>
