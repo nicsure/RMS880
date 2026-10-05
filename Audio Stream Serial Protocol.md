@@ -1,4 +1,4 @@
-# Audio Stream Serial Protocol
+# Audio Stream Serial Protocol for nicFW950 (RT-950 Pro)
 
 
 ## Link settings
