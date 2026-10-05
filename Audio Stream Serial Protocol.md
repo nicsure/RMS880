@@ -82,4 +82,14 @@ Total length is 2053 bytes.
       * At this point initialize any live audio system or construct your audio file header, preferably including the meta data into the header.
     - For a 0x60 (audio data) packet, extract the 1024 16 bit samples.
       * Add/process the audio data into your audio file and/or route it to your live audio system for instant playback.
-    - For a 0x62 (stop stream) packet. Finalize your audio file and save/close the file and/or shut down you live audio system/place it into an idle state
+    - For a 0x62 (stop stream) packet. Finalize your audio file and save/close the file and/or shut down your live audio system/place it into an idle state
+
+ ### Strategy for Live Playback
+
+ As audio data packets are received, place the data blacks into a queue for processing.
+ Do not begin playback until you have at least two blocks queued
+ If when removing a block from the queue, the queue is empty, process the 1024 sample block and repeat the last sample making 1025 in total.
+ If when removing a block from the queue, the queue contains two or more waiting blocks, process the 1024 sample block but do not send the last sample making 1023 in total
+ (Note that you may introduce a more sophisticated zero crossing policy for the sample addition or removal rather than using the last sample)
+
+ This keeps the audio synced and prevents latency drift. There will be small differences in the sample rates on both sides.
