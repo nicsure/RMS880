@@ -8,11 +8,8 @@
 | Port | Serial Motorola Connection |
 | Baud rate while streaming | 230400 |
 | Format | 8 data bits, no parity, 1 stop bit |
-| Baud rate after stream stops | 38400 (system default) |
 | Direction | Radio to host only |
 | Multi-byte values | Little-endian |
-
-The radio switches to 230400 baud at the start of the stream and returns to 38400 after the stop packet.
 
 ## Packet framing
 
@@ -70,12 +67,10 @@ Total length is 2053 bytes.
 | 1 | 1 | `0x62` |
 | 2 | 1 | `0x55` |
 
-The baud rate returns to 38400 right after this packet is receieved.
-
 ## Host receive notes
 
 1. Open the port at 230400 8N1 and wait for `0xAA`.
 2. Read the ID byte and handle the packet by ID, using the sizes above. Do not scan for `0x55` to find the end, because audio data can contain that byte value.
-instead, assume the packet length as it is always constant and simply verify the 0x55 at the end is receieved correctly.
-4. Check that the last byte is `0x55`. If it is not, discard the packet and resync on the next `0xAA`.
-5. On `0x62`, reopen or reconfigure the port at 38400 baud.
+3. Check that the last byte is `0x55`. If it is not, discard the packet and resync on the next `0xAA`.
+4. On `0x62`, reopen or reconfigure the port at 38400 baud.
+5. Audio is not continually sent. A squelch opening event will trigger the stream to begin starting with the stream start packet and ending with the stream stop packet.
