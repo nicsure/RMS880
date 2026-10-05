@@ -72,5 +72,14 @@ Total length is 2053 bytes.
 1. Open the port at 230400 8N1 and wait for `0xAA`.
 2. Read the ID byte and handle the packet by ID, using the sizes above. Do not scan for `0x55` to find the end, because audio data can contain that byte value.
 3. Check that the last byte is `0x55`. If it is not, discard the packet and resync on the next `0xAA`.
-4. On `0x62`, reopen or reconfigure the port at 38400 baud.
-5. Audio is not continually sent. A squelch opening event will trigger the stream to begin starting with the stream start packet and ending with the stream stop packet.
+4. Audio is not continually sent. A squelch opening event will trigger the stream to begin, starting with the stream start packet and ending with the stream stop packet.
+
+### Suggested Process Loop
+
+- Scan for byte 0xAA
+  * Once 0xAA is receieved switch on the next byte.
+    - For a 0x61 (start stream) packet, extract and store the stream metadata in state variable and/or display them in the UI.
+      * At this point initialize any live audio system or construct your audio file header, preferably including the meta data into the header.
+    - For a 0x60 (audio data) packet, extract the 1024 16 bit samples.
+      * Add/process the audio data into your audio file and/or route it to your live audio system for instant playback.
+    - For a 0x62 (stop stream) packet. Finalize your audio file and save/close the file and/or shut down you live audio system/place it into an idle state
