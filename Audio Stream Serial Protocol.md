@@ -88,8 +88,9 @@ Total length is 2053 bytes.
 
  As audio data packets are received, place the data blocks into a queue for processing.
  Do not begin playback until you have at least two blocks queued.
- If when removing a block from the queue, the queue is empty, process the 1024 sample block and repeat the last sample making 1025 in total.
- If when removing a block from the queue, the queue contains two or more waiting blocks, process the 1024 sample block but do not send the last sample making 1023 in total.
+ If when removing a block from the queue, the queue is left empty, process the 1024 sample block and repeat the last sample making 1025 in total.
+ If when removing a block from the queue, the queue is left containing two or more waiting blocks, process the 1024 sample block but do not send the last sample making 1023 in total.
  (Note that you may introduce a more sophisticated zero crossing policy for the sample addition or removal rather than using the last sample)
+ IF the queue is empty when you need to pull the next block, send a null block (silence), however this should never happen.
 
  This keeps the audio synced and prevents latency drift. There will be small differences in the sample rates on both sides.
