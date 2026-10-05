@@ -98,11 +98,9 @@ Total length is 2053 bytes.
  ### Strategy for Zero Crossing sample padding and sample truncation
 
  For sample padding.  
- Scan the block, if you find a zero (almost certain) insert another at that point.  
- If you do not find a zero, scan progressively for (-1, 1, -2, 2, -3, 3, ...)  
+ Scan progressively for (0, -1, 1, -2, 2, -3, 3, ...)  
  * Once found, find the mid value between this and the next sample and insert at that point.
 
  For sample truncation.  
- Scan the block, if you find a zero (almost certain) remove it.  
- If you do not find a zero, scan progressively for (-1, 1, -2, 2, -3, 3, ...)
+ Scan progressively for (0, -1, 1, -2, 2, -3, 3, ...)
  * Once found, remove it.
